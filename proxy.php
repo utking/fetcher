@@ -1,8 +1,7 @@
 <?php
-$token = '3df4514cde0d15dd2b8269b1008a0b8b83c37ff02ad81c9f8c81c5706e84e9ce';
-$session_id = 'ac3ce102dde2c42918bd671e0c8414e1';
-$cookie = "__utma=262503198.1480261429.1399890343.1403400273.1404247653.10; __utmz=262503198.1399890343.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); test-persistent=1; CSRF_TOKEN=$token; __utmb=262503198.9.10.1404247653; __utmc=262503198; test-session=1; PHPSESSID=$session_id; visitedDashboard=1";
-
+$token = 'b3877684d6898801084d7c1266b0172182fd8e49691042fef525c05ccbe1a84a';
+$session_id = 'afe0034dc894acca575be977828d505e';
+$cookie = "CSRF_TOKEN=$token; test-persistent=1; PHPSESSID=$session_id; visitedDashboard=1; __utma=262503198.1655790179.1409706180.1409706180.1409706180.1; __utmb=262503198.5.10.1409706180; __utmc=262503198; __utmz=262503198.1409706180.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); test-session=1";
 $pickupAreas = $_POST['pickupAreas'];
 $deliveryAreas = $_POST['deliveryAreas'];
 $vehicleTypeIds = $_POST['vehicleTypeIds'];
@@ -27,5 +26,6 @@ exec($cmd);
 $ret = file_get_contents('/tmp/file.gz');
 $data = gzdecode($ret);
 $data = str_replace('\n', '', $data);
+unlink('/tmp/file.gz');
 
 die($data);
