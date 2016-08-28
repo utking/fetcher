@@ -3,47 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <title>Central Dispatch Fetcher</title>
-        <link rel="stylesheet" type="text/css" href="http://centraldispatch.com/v/1399435594/css/bootstrap-docs.css"  />
+        <link rel="stylesheet" type="text/css" href="http://centraldispatch.com/v/1399435594/css/bootstrap-docs.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <style>
-            html { background: #dfdfdf;}
-            body { background: white; width: 94%; margin: auto; padding: 5px;}
-            a#search_manager { float: right; padding: 5px; }
-            div#search_manager_div { 
-                display: none; 
-                clear: both; 
-                padding: 0.6em; 
-                border: 1px dotted gray;
-                border-radius: 5px;
-                background: #efefef;
-                margin-bottom: 0.5em;
-            }
-
-            tr.newRow td {
-                background: lightgreen;
-            }
-
-            tr.newLoadRow td {
-                background: lightskyblue;
-            }
-
-            tr.newRow td span.phone {
-                background: yellow;
-            }
-
-            button, select { border: 1px solid gray; border-radius: 5px;}
-            select { margin-top: 0 }
-            button { margin-top: 5px; background: #d9d9d9; }
-
-            table {
-                border-collapse: collapse;
-            }
-
-            span.phone {
-                font-weight: bolder;
-                background-color: lightblue;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="/styles.css">
     </head>
     <body>
         <div id='err_div'></div>
@@ -52,15 +14,15 @@
         <div class='search_selector_div'>
             <label for='update_timer'>Timer value: <input id='update_timer' type='num' class='numeric' value='60'></label>
             <label for='play_sound'><input type='checkbox' id='play_sound'> Sound</label>            
-            <a href='#' onclick='return false;' id='search_manager'>Manage search</a>
+            <a href='#' id='search_manager'>Manage search</a>
 
             <div id='search_manager_div'>
-                <h4 style='display: block;'>Search parameters</h4>
+                <h4 class='block-control'>Search parameters</h4>
                 <table>
                     <tr>
                         <td>
-                            <label for='pickup_states_selector' style='clear: both;'>Pickup states</label><br>
-                            <select id='pickup_states_selector' style="width: 275px !important;" multiple="multiple" size="5" name="pickupAreas[]">
+                            <label for='pickup_states_selector' class="clearfix">Pickup states</label><br>
+                            <select id='pickup_states_selector' multiple="multiple" size="5" name="pickupAreas[]">
                                 <option value="All" label="All" title="All">All</option>
                                 <option value="region_1" label="Northeast - ME,VT,NH,MA,RI,CT,NY,NJ,PA,DE" title="Northeast - ME,VT,NH,MA,RI,CT,NY,NJ,PA,DE">Northeast - ME,VT,NH,MA,RI,CT,NY,NJ,PA,DE</option>
                                 <option value="region_2" label="Southeast - MD,DC,VA,WV,KY,TN,NC,SC,AL,GA,FL" title="Southeast - MD,DC,VA,WV,KY,TN,NC,SC,AL,GA,FL">Southeast - MD,DC,VA,WV,KY,TN,NC,SC,AL,GA,FL</option>
@@ -137,8 +99,8 @@
                             </select>	
                         </td>
                         <td>
-                            <label for='delivery_states_selector' style='clear: both;'>Delivery states</label><br>
-                            <select id='delivery_states_selector' style="width: 275px !important;" multiple="multiple" size="5" name="deliveryAreas[]">
+                            <label for='delivery_states_selector' class="clearfix">Delivery states</label><br>
+                            <select id='delivery_states_selector' multiple="multiple" size="5" name="deliveryAreas[]">
                                 <option value="All" label="All" title="All">All</option>
                                 <option value="region_1" label="Northeast - ME,VT,NH,MA,RI,CT,NY,NJ,PA,DE" title="Northeast - ME,VT,NH,MA,RI,CT,NY,NJ,PA,DE">Northeast - ME,VT,NH,MA,RI,CT,NY,NJ,PA,DE</option>
                                 <option value="region_2" label="Southeast - MD,DC,VA,WV,KY,TN,NC,SC,AL,GA,FL" title="Southeast - MD,DC,VA,WV,KY,TN,NC,SC,AL,GA,FL">Southeast - MD,DC,VA,WV,KY,TN,NC,SC,AL,GA,FL</option>
@@ -215,8 +177,8 @@
                             </select>	
                         </td>
                         <td>
-                            <label for='car_types_selector' style='clear: both;'>Car types</label><br>
-                            <select id='car_types_selector' style="width: 275px !important;" multiple="multiple" size="5" name="vehicleTypeIds[]">
+                            <label for='car_types_selector' class='clearfix'>Car types</label><br>
+                            <select id='car_types_selector' multiple="multiple" size="5" name="vehicleTypeIds[]">
                                 <option value="14" label="ATV" title="ATV">ATV</option>
                                 <option value="3" label="Boat" title="Boat">Boat</option>
                                 <option value="4" label="Car" title="Car">Car</option>
@@ -237,199 +199,9 @@
             </div>
         </div>
         <table id='rows' class='listingTable'>
-            <tr>
-            </tr>
+            <tr></tr>
         </table>
-        <script type="text/javascript">
-            <!--
-    var snd = new Audio('beep.wav');
-    var timer = document.getElementById('update_timer');
-    var err = document.getElementById('err_div');
-    var info_div = document.getElementById('info_div');
-    var search_manager = document.getElementById('search_manager');
-    var search_manager_div = document.getElementById('search_manager_div');
-    var apply_search = document.getElementById('apply_search');
-    var timer_obj;
-    var prevListing = [];
-    var curListing = [];
-
-    window.onload = function() {
-        var table = document.getElementById('rows');
-        var tableRows = prepareTableHeader();
-        tableRows += '<tr><td colspan="8"><h3>No data loaded</h3></td></tr>';
-        table.innerHTML = tableRows;
-    };
-
-    apply_search.onclick = function() {
-        applySearchParams();
-    };
-
-    search_manager.onclick = function() {
-        $(search_manager_div).toggle(200);
-        return false;
-    };
-
-    function prepareTableHeader() {
-        var tableRows = '';
-        {
-            tableRows += '<thead><tr><th>Posted</th>';
-            tableRows += '<th>Ship date</th>';
-            tableRows += '<th>Path</th>';
-            tableRows += '<th>Price</th>';
-            tableRows += '<th>Phone / Company</th>';
-            tableRows += '<th>Composite</th>';
-            tableRows += '<th>RouteUrl</th>';
-            tableRows += '<th>Map</th></tr></thead>';
-        }
-        return tableRows;
-    }
-
-    function updateSearchWithParams(pickupStates, deliveryStates, vehicleTypeIds) {
-        err.innerHTML = '<span style="padding: 5px; margin: 5px; background: #cadafe; display: block;">Loading...</span>';
-        var table = document.getElementById('rows');
-        var tableRows = prepareTableHeader();
-        tableRows += '<tr><td colspan="8"><h3> Loading data...</h3></td></tr>';
-        table.innerHTML = tableRows;
-        $.ajax({
-            url: 'proxy.php',
-            type: 'post',
-            data: {
-                paramed: true,
-                pickupAreas: pickupStates,
-                vehicleTypeIds: vehicleTypeIds,
-                deliveryAreas: deliveryStates
-            },
-            dataType: 'json',
-            success: function(retData) {
-                var retHtml = parseData(retData);
-                date = new Date;
-                err.innerHTML = '<span style="padding: 5px; margin: 5px; background: white; display: block">Last update: ' + date + retHtml + '</span>';
-            },
-            error: function(err_code, p1, p2) {
-                console.log('error');
-                tableRows = prepareTableHeader();
-                console.info(err_code);
-                tableRows += '<tr><td colspan="8"><h3>Error loading data...</h3>' + err_code.responseText + '</td></tr>';
-                table.innerHTML = tableRows;
-                err.innerHTML = '<span style="padding: 5px; margin: 5px; background: white; display: block">Last update: failed</span>';
-            }
-        });
-    }
-
-    function parseData(data) {
-        var table = document.getElementById('rows');
-        var tableRows = prepareTableHeader();
-        var hasNew = false;
-        for (var i = 0; i < data.count && i < 100; i++) {
-            tableRows += '<tr class="jsListingRow largeTableRow';
-            if (data.listings[i].newListing) {//Last hour's rows
-                tableRows += ' newRow';
-                if ($.inArray(data.listings[i].listingId, prevListing) < 0) {//New item
-                    tableRows += ' newLoadRow';
-                    hasNew = true;
-                }
-                curListing[curListing.length] = data.listings[i].listingId;
-            }
-            
-            tableRows += '"><td>' + data.listings[i].modifiedDate + '</td>';
-            tableRows += '<td>' + data.listings[i].shipBeginDate + '<br>';
-            tableRows += '<strong>Hours:</strong> ' + data.listings[i].hours + '</td>';
-            tableRows += '<td><strong>From:</strong> ' + data.listings[i].pickup.city + ' (' + data.listings[i].pickup.state + ')';
-            if (data.listings[i].pickup.zip !== "") {
-                tableRows += ' [' + data.listings[i].pickup.zip + ']';
-            }
-            if (data.listings[i].pickup.metro !== null) {
-                tableRows += '<div class="metro">' + data.listings[i].pickup.metro + '</div>';
-            }
-            tableRows += '<br>';
-            tableRows += '<strong>To:</strong> ' + data.listings[i].delivery.city + ' (' + data.listings[i].delivery.state + ')';
-            if (data.listings[i].delivery.zip !== "") {
-                tableRows += ' [' + data.listings[i].delivery.zip + ']';
-            }
-            if (data.listings[i].delivery.metro !== null) {
-                tableRows += '<div class="metro">' + data.listings[i].delivery.metro + '</div>';
-            }
-            tableRows += '</td>';
-            tableRows += '<td>' + data.listings[i].priceText + '<br>' + data.listings[i].pricePerMile + ' x ' + data.listings[i].truckMiles + '</td>';
-            tableRows += '<td><span class="phone">' + data.listings[i].phone + '</span><br>' + data.listings[i].company + '<br>' + data.listings[i].rating + '</td>';
-            tableRows += '<td>' + data.listings[i].composite + '</td>';
-            tableRows += '<td>' + data.listings[i].routeUrl + '</td>';
-            tableRows += '<td><a href="' + data.listings[i].pickup.mapUrl + '" target="blank">Map</a></td></tr>';
-
-        }
-
-        prevListing = curListing.slice();
-        
-        table.innerHTML = tableRows;
-        if (hasNew) {
-            playSound();
-            window.clearInterval(timerObj);
-            console.log('Timer stopped');
-            return ' <b>New loads. Stopped. Apply search parameters to start.</i></b>';
-        }
-        console.log('Timer reloaded');
-        return '';
-    }
-
-    function playSound() {
-        var playSoundSwitcher = document.getElementById('play_sound');
-        if (playSoundSwitcher.checked) {
-            console.info('playSound');
-            snd.play();
-        } else {
-            console.info('skip playSound');
-        }
-    }
-
-    function applySearchParams() {
-        var pickupAreas = '';
-        var deliveryAreas = '';
-        var vehicleTypeIds = '';
-        var pickupText = '';
-        var deliveryText = '';
-        var vehicleTypeIdsText = '';
-
-        $('#pickup_states_selector option').each(function() {
-            if ($(this).is(':selected')) {
-                pickupAreas += '&pickupAreas[]=' + $(this).val();
-                pickupText += $(this).text() + ', ';
-            }
-        });
-        $('#delivery_states_selector option').each(function() {
-            if ($(this).is(':selected')) {
-                deliveryAreas += '&deliveryAreas[]=' + $(this).val();
-                deliveryText += $(this).text() + ', ';
-            }
-        });
-        $('#car_types_selector option').each(function() {
-            if ($(this).is(':selected')) {
-                vehicleTypeIds += '&vehicleTypeIds[]=' + $(this).val();
-                vehicleTypeIdsText += $(this).text() + ', ';
-            }
-        });
-        if (pickupAreas === '') {
-            pickupAreas = '&pickupAreas' + encodeURIComponent('[]') + '=All';
-        }
-        if (deliveryAreas === '') {
-            deliveryAreas = '&deliveryAreas' + encodeURIComponent('[]') + '=All';
-        }
-        if (vehicleTypeIds === '') {
-            vehicleTypeIds = '&vehicleTypeIds[' + encodeURIComponent('[]') + '=';
-        }
-        info_div.innerHTML = '<span style="padding: 5px; margin: 5px; background: #cadefe;"><b>From:</b> ' + pickupText.slice(0, -1) + ' <b>To:</b> ' + deliveryText.slice(0, -1) + ' <b>Car types:</b> ' + vehicleTypeIdsText.slice(0, -1) + '</span>';
-        updateSearchWithParams(
-                pickupAreas.substring(1),
-                deliveryAreas.substring(1),
-                vehicleTypeIds.substring(1)
-                );
-        if ('undefined' !== typeof timerObj) {
-            window.clearInterval(timerObj);
-            console.log('Timer reset: ' + (timer.value * 1000));
-        }
-        timerObj = setInterval(applySearchParams, timer.value * 1000);
-    }
-    -->
-            </script>
+        <script type="text/javascript" src="/script.js"></script>
     </body>
 </html>
 
