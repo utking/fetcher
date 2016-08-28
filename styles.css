@@ -10,8 +10,16 @@ body {
 }
 
 a#search_manager {
-    float: right; padding: 5px;
+    /* float: right; */
+    padding: 5px;
 }
+
+div.options-block {
+    display: inline-block;
+    float: right;
+    padding: 5px;
+}
+
 
 div#search_manager_div { 
     display: none; 
@@ -72,7 +80,7 @@ span.phone {
     clear: both;
 }
 
-#info_div > span,
+#err_div > span,
 #info_div > span {
     padding: 5px;
     margin: 5px;

@@ -15,8 +15,7 @@
             <label for='update_timer'>Timer value: <input id='update_timer' type='num' class='numeric' value='60'></label>
             <label for='play_sound'><input type='checkbox' id='play_sound'> Sound</label>
             <div class="options-block">
-                <a href='#' id='search_manager'>Manage search</a> &nbsp;
-                <a href='set_cookie.php' target='_set_cookies'>Set cookies</a>
+                <a href='#' id='search_manager'>Manage search</a> | <a href='set_cookie.php' target='_set_cookies'>Set cookies</a>
             </div>            
 
             <div id='search_manager_div'>
