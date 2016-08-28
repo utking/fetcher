@@ -69,7 +69,6 @@
     function parseData(data) {
         var trs = prepareTableHeader();
         var hasNew = false;
-        var curList;
         data.listings = data.listings.sort(function(a, b) { return a.listingId < b.listingId; });
         /* Process no more than 100 items */
         data.listings.slice(0, 100).forEach(function (curList) {
