@@ -13,12 +13,8 @@
         <span id="dummy"></span>
         <div class='search_selector_div'>
             <label for='update_timer'>Timer value: <input id='update_timer' type='num' class='numeric' value='60'></label>
-            <label for='play_sound'><input type='checkbox' id='play_sound'> Sound</label>
-
-            <div class="options-block">
-                <a href='#' id='search_manager'>Manage search</a>
-                <a href='/set_cookie.php' target='_set_cookies'>Set cookies</a>
-            </div>
+            <label for='play_sound'><input type='checkbox' id='play_sound'> Sound</label>            
+            <a href='#' id='search_manager'>Manage search</a>
 
             <div id='search_manager_div'>
                 <h4 class='block-control'>Search parameters</h4>

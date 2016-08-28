@@ -70,8 +70,9 @@
         var trs = prepareTableHeader();
         var hasNew = false;
         var curList;
-        for (var i = 0; i < data.count && i < 100; i++) {
-            curList = data.listings[i];
+        data.listings = data.listings.sort(function(a, b) { return a.listingId < b.listingId; });
+        /* Process no more than 100 items */
+        data.listings.slice(0, 100).forEach(function (curList) {
             trs += '<tr class="jsListingRow largeTableRow';
             if (curList.newListing) {//Last hour's rows
                 trs += ' newRow';
@@ -106,8 +107,7 @@
             trs += '<td>' + curList.composite + '</td>';
             trs += '<td>' + curList.routeUrl + '</td>';
             trs += '<td><a href="' + curList.pickup.mapUrl + '" target="blank">Map</a></td></tr>';
-
-        }
+        });
 
         prevListing = curListing.slice();
 
