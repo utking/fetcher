@@ -16,7 +16,7 @@
 
     wnd.onload = function() {
         var tableRows = prepareTableHeader();
-        elements.table.innerHTML += '<tr><td colspan="8"><h3>No data loaded</h3></td></tr>';
+        elements.table.innerHTML += tableRows + '<tr><td colspan="8"><h3>No data loaded</h3></td></tr>';
     };
 
     elements.apply_search.onclick = performSearch;
