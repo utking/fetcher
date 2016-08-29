@@ -39,7 +39,7 @@
     function paramedSearch(pickupStates, deliveryStates, vehicleTypeIds) {
         elements.err.innerHTML = '<span>Loading...</span>';
         var tableRows = prepareTableHeader();
-        tableRows += '<tr><td colspan="8"><h3> Loading data...</h3></td></tr>';
+        tableRows += '<tr><td colspan="8"><h3>Loading data...</h3></td></tr>';
         elements.table.innerHTML = tableRows;
         $.ajax({
             url: '/proxy.php',
@@ -58,7 +58,6 @@
             },
             error: function(err_code) {
                 tableRows = prepareTableHeader();
-                console.error('Error:',err_code);
                 tableRows += '<tr><td colspan="8"><h3>Error loading data...</h3>' + err_code.responseText + '</td></tr>';
                 elements.table.innerHTML = tableRows;
                 elements.err.innerHTML = '<span>Last update: failed</span>';
@@ -114,20 +113,15 @@
         if (hasNew) {
             notify();
             wnd.clearInterval(timerObj);
-            console.info('Timer stopped');
             return ' <b>New loads. Stopped. Apply search parameters to start.</i></b>';
         }
-        console.info('Timer reloaded');
         return '';
     }
 
     function notify() {
         
         if (elements.soundSwitcher.checked) {
-            console.info('playSound');
             snd.play();
-        } else {
-            console.info('skip playSound');
         }
     }
 
@@ -175,7 +169,6 @@
         paramedSearch(pickupAreas.join('&'), deliveryAreas.join('&'), vehicleTypeIds.join('&'));
         if ('undefined' !== typeof timerObj) {
             wnd.clearInterval(timerObj);
-            console.info('Timer reset: ' + (elements.timer.value * 1000));
         }
         timerObj = wnd.setInterval(performSearch, elements.timer.value * 1000);
     }
